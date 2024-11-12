@@ -3,6 +3,7 @@ filename: ruby.yaml
 signatures:
 
   - name: Ruby on Rails Secret Tokens
+    id: tokens_ruby_on_rails_secret_token
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

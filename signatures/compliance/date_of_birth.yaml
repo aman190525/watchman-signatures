@@ -3,6 +3,7 @@ filename: date_of_birth.yaml
 signatures:
 
   - name: Date of Birth
+    id: compliance_date_of_birth
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

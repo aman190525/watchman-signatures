@@ -3,6 +3,7 @@ filename: ni_numbers.yaml
 signatures:
 
   - name: National Insurance Numbers (UK)
+    id: compliance_ni_numbers_uk
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

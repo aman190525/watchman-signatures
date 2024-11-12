@@ -3,6 +3,7 @@ filename: archive_files.yaml
 signatures:
 
   - name: Archive Files
+    id: archive_files
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

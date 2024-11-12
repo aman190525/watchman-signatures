@@ -10,6 +10,7 @@ class Signature:
     They also contain regex patterns to validate data that is found"""
 
     name: str
+    id: str
     status: str
     name: str
     author: str
@@ -46,6 +47,7 @@ def load_from_yaml(sig_path: pathlib.PosixPath) -> Signature:
             if 'slack_eg' in sig.get('watchman_apps'):
                 output.append(Signature(
                     name=sig.get('name'),
+                    id=sig.get('id'),
                     status=sig.get('status'),
                     author=sig.get('author'),
                     date=sig.get('date'),

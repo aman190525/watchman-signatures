@@ -3,6 +3,7 @@ filename: ssn_us.yaml
 signatures:
 
   - name: Social Security Numbers (US)
+    id: compliance_ssn_us
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

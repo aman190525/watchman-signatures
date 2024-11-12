@@ -3,6 +3,7 @@ filename: stripe.yaml
 signatures:
 
   - name: Stripe API Tokens
+    id: tokens_stripe_api
     status: enabled
     author: PaperMtn
     date: "2020-10-21"

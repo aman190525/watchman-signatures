@@ -3,6 +3,7 @@ filename: alibaba.yaml
 signatures:
 
   - name: Alibaba IAM Access Key ID
+    id: tokens_alibaba_access_key_id
     status: enabled
     author: PaperMtn
     date: 2023-12-22
@@ -56,6 +57,7 @@ signatures:
       - LTAI[0-9a-zA-Z]{12,20}
 
   - name: Alibaba IAM Secret Access Key
+    id: tokens_alibaba_secret_access_key
     status: enabled
     author: PaperMtn
     date: 2023-12-22

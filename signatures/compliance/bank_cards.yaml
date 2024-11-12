@@ -3,6 +3,7 @@ filename: bank_cards.yaml
 signatures:
 
   - name: Bank Cards
+    id: compliance_bank_cards
     status: enabled
     author: PaperMtn
     date: "2021-09-24"
