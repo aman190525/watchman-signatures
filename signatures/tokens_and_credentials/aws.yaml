@@ -3,6 +3,7 @@ filename: aws.yaml
 signatures:
 
   - name: AWS API Tokens
+    id: tokens_aws_api_tokens
     status: enabled
     author: PaperMtn
     date: "2021-09-24"
@@ -59,6 +60,7 @@ signatures:
       - "(?!com/archives/[A-Z0-9]{9}/p[0-9]{16})((?<![A-Za-z0-9/+])[A-Za-z0-9/+]{40}(?![A-Za-z0-9/+])|(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9]))"
 
   - name: S3 Bucket URLs
+    id: tokens_aws_s3_urls
     status: enabled
     author: PaperMtn
     date: "2023-04-28"

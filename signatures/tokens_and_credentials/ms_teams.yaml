@@ -3,6 +3,7 @@ filename: ms_teams.yaml
 signatures:
 
   - name: Outlook Team Webhooks
+    id: tokens_outlook_team_webhooks
     status: enabled
     author: PaperMtn
     date: "2023-05-20"
@@ -60,6 +61,7 @@ signatures:
       - "https://outlook.office(365)?.com/webhook/[a-zA-Z0-9-_@!]{73}/[a-zA-Z0-9-_@!]*/[a-zA-Z0-9-_@!]{32}/[a-zA-Z0-9-_@!]{36}"
 
   - name: Microsoft Teams Webhooks
+    id: tokens_ms_teams_webhooks
     status: enabled
     author: PaperMtn
     date: "2023-05-20"

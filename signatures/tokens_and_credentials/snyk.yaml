@@ -3,6 +3,7 @@ filename: snyk.yaml
 signatures:
 
   - name: Snyk API Tokens
+    id: tokens_snyk_api
     status: enabled
     author: PaperMtn
     date: "2021-10-12"

@@ -2,7 +2,8 @@
 filename: private_keys.yaml
 signatures:
 
-  - name: PGP Private Keys
+  - name: Private Keys
+    id: tokens_private_keys
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

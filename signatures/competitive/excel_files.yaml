@@ -3,6 +3,7 @@ filename: excel_files.yaml
 signatures:
 
   - name: Excel Files
+    id: excel_files
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

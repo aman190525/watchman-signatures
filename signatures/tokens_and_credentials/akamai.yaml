@@ -3,6 +3,7 @@ filename: akamai.yaml
 signatures:
 
   - name: Akamai API Access Tokens
+    id: tokens_akamai
     status: enabled
     author: PaperMtn
     date: "2023-12-22"

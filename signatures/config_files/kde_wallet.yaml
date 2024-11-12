@@ -3,6 +3,7 @@ filename: kde_wallet.yaml
 signatures:
 
   - name: KDE Wallet Files
+    id: config_kde_wallet
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

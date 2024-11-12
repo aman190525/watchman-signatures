@@ -3,6 +3,7 @@ filename: macos.yaml
 signatures:
 
   - name: macOS Keychain Files
+    id: config_macos_keychain
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

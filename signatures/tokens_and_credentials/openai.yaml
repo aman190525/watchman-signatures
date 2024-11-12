@@ -3,6 +3,7 @@ filename: openai.yaml
 signatures:
 
   - name: OpenAI API Tokens
+    id: tokens_openai_api
     status: enabled
     author: PaperMtn
     date: "2023-04-16"

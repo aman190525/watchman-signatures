@@ -3,6 +3,7 @@ filename: cusip_numbers.yaml
 signatures:
 
   - name: CUSIP Numbers
+    id: compliance_cusip_numbers
     status: enabled
     author: PaperMtn
     date: "2021-09-24"
