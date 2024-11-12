@@ -3,6 +3,7 @@ filename: slack.yaml
 signatures:
 
   - name: Slack API Tokens
+    id: tokens_slack_api_tokens
     status: enabled
     author: PaperMtn
     date: "2021-09-24"
@@ -72,6 +73,7 @@ signatures:
       - "xox[baprs]([0-9a-zA-Z-]{10,72})"
 
   - name: Slack App Tokens
+    id: tokens_slack_app_tokens
     status: enabled
     author: PaperMtn
     date: "2023-05-15"
@@ -125,6 +127,7 @@ signatures:
       - 'xapp-\d-[a-zA-Z0-9]{11}-\d{13}-[a-zA-Z0-9]{64}'
 
   - name: Slack D Cookie
+    id: tokens_slack_d_cookies
     status: enabled
     author: PaperMtn
     date: "2023-05-15"
@@ -178,6 +181,7 @@ signatures:
       - 'xoxd-[A-Za-z0-9%+/=]{210}'
 
   - name: Slack User Session Token
+    id: tokens_slack_user_session_tokens
     status: enabled
     author: PaperMtn
     date: "2023-05-15"
@@ -231,6 +235,7 @@ signatures:
       - 'xoxc-\d{13}-\d{13}-\d{13}-[a-zA-Z0-9]{64}'
 
   - name: Slack Webhooks
+    id: tokens_slack_webhooks
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

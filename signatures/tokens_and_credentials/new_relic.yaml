@@ -3,6 +3,7 @@ filename: new_relic.yaml
 signatures:
 
   - name: New Relic API Tokens
+    id: tokens_new_relic_api
     status: enabled
     author: PaperMtn
     date: "2021-10-12"
@@ -58,6 +59,7 @@ signatures:
       - '(?i)(''|"){0,2}((token|key)|X-Api-Key)(''|"){0,2}\s*(=|:|\s*)(\s*)(''|"){0,2}([0-9a-zA-Z]{40,47})(''|"){0,2}'
 
   - name: New Relic API Tokens (Prefixed)
+    id: tokens_new_relic_api_prefixed
     status: enabled
     author: PaperMtn
     date: "2021-10-12"

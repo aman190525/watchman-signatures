@@ -3,6 +3,7 @@ filename: github.yaml
 signatures:
 
   - name: GitHub API Tokens
+    id: tokens_github_api
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

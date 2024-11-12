@@ -3,6 +3,7 @@ filename: pidgin_otr.yaml
 signatures:
 
   - name: Pidgin OTR Private Keys
+    id: config_pidgin_otr
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

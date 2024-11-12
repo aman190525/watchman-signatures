@@ -3,6 +3,7 @@ filename: sql.yaml
 signatures:
 
   - name: SQL Server Trace Files
+    id: config_sql_trace_files
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

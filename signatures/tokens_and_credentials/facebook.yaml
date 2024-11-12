@@ -3,6 +3,7 @@ filename: facebook.yaml
 signatures:
 
   - name: Facebook Access Tokens
+    id: tokens_facebook_access_tokens
     status: enabled
     author: PaperMtn
     date: "2021-09-24"
@@ -68,6 +69,7 @@ signatures:
       - "EAACEdEose0cBA[0-9A-Za-z]+"
 
   - name: Facebook Secret Tokens
+    id: tokens_facebook_secret_tokens
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

@@ -3,6 +3,7 @@ filename: tunnelblick.yaml
 signatures:
 
   - name: Tunnelblick VPN Files
+    id: config_tunnelblick
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

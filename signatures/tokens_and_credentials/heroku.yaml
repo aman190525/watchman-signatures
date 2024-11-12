@@ -3,6 +3,7 @@ filename: heroku.yaml
 signatures:
 
   - name: Heroku API Tokens
+    id: tokens_heroku_api
     status: enabled
     author: PaperMtn
     date: "2020-10-26"

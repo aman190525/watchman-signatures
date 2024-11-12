@@ -3,6 +3,7 @@ filename: iban_numbers.yaml
 signatures:
 
   - name: IBAN Numbers
+    id: compliance_iban_numbers
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

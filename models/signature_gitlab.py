@@ -10,6 +10,7 @@ class Signature(object):
     They also contain regex patterns to validate data that is found"""
 
     name: str
+    id: str
     status: bool
     author: str
     date: str
@@ -48,6 +49,7 @@ def load_from_yaml(sig_path: pathlib.PosixPath) -> list[Signature]:
                 output.append(
                     Signature(
                         name=sig.get('name'),
+                        id=sig.get('id'),
                         status=sig.get('status'),
                         author=sig.get('author'),
                         date=sig.get('date'),

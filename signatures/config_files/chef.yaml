@@ -3,6 +3,7 @@ filename: chef_config_files.yaml
 signatures:
 
   - name: Chef Config Files
+    id: config_chef_files
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

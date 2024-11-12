@@ -3,6 +3,7 @@ filename: s3_config.yaml
 signatures:
 
   - name: S3 Configuration Files
+    id: config_s3_config_files
     status: enabled
     author: PaperMtn
     date: "2021-09-24"

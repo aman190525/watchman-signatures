@@ -3,6 +3,7 @@ filename: ftp.yaml
 signatures:
 
   - name: FTP Credentials
+    id: tokens_ftp_credentials
     status: enabled
     author: PaperMtn
     date: "2021-10-12"

@@ -3,6 +3,7 @@ filename: pagerduty.yaml
 signatures:
 
   - name: PagerDuty API Tokens
+    id: tokens_pagerduty_api
     status: enabled
     author: PaperMtn
     date: "2021-10-12"
