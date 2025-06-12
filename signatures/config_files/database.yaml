@@ -4,6 +4,9 @@ signatures:
 
   - name: Database Files
     id: database_files
+    category: filetype
+
+
     status: enabled
     author: PaperMtn
     date: "2025-06-12"

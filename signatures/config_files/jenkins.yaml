@@ -4,6 +4,7 @@ signatures:
 
   - name: Jenkins Publish over SSH Tokens
     id: config_jenkins_ssh
+    category: filetype
     status: enabled
     author: PaperMtn
     date: "2022-12-23"

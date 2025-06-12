@@ -38,7 +38,8 @@ def load_signatures(sig_dir):
                             signatures.append({
                                 'id': sig.get('id', fname),
                                 'pattern': compiled,
-                                'description': sig.get('description', '')
+                                'description': sig.get('description', ''),
+                                'category': sig.get('category', 'secret') # default to 'secret'
                             })
                         except re.error as e:
                             print(f" Invalid regex in {fname}: {e}", file=sys.stderr)
@@ -60,20 +61,27 @@ def scan_file(path, signatures):
                         if not raw_val:
                             continue
 
+                        
+                        if sig.get('category', 'secret') == 'filetype':
+                            matched_keyword = "filetype"
 
-                        # this part below
-                        try:
-                            prefix = line[:m.start()].lower()
-                        except IndexError:
-                            continue
-
-                        matched_keyword = next((kw for kw in sensitive_keywords if kw in prefix), None)
-
-
+                        else:
 
                         
-                        if not any(keyword in prefix for keyword in sensitive_keywords):
-                            continue
+                        
+                            prefix = line[:m.start()].lower()
+                            matched_keyword = next((kw for kw in sensitive_keywords if kw in prefix), None)
+
+                        # Look for the last word before the match
+                        #words = re.findall(r'\b\w+\b', prefix)
+                        #matched_keyword = words[-1] if words and words[-1] in sensitive_keywords else None
+
+
+
+
+                       
+                            if not any(keyword in prefix for keyword in sensitive_keywords):
+                                continue
 
                         #ends here
                         hits.append((i, sig['id'], raw_val, matched_keyword))

@@ -5,6 +5,7 @@ signatures:
   - name: Filezilla Config Files
     id: config_filezilla
     status: enabled
+    category: filetype
     author: PaperMtn
     date: "2022-12-23"
     description:
