@@ -157,5 +157,6 @@ if __name__ == "__main__":
 
 
    
-# disabled archive_files, word_filed, budget_files, [tokens_1password_data_files], ruby.yaml  
+# disabled archive_files, word_file, budget_files, [tokens_1password_data_files], ruby.yaml  , compliance id nos
+# compliance_cusip number can remove
 # i.e enabled -> disabled under status field
