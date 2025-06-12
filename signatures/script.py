@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-script.py
+secret_scanner.py
 
 Scans a directory for secrets using YAML signatures and exports results to CSV.
 Outputs raw matched values with:
@@ -14,6 +14,7 @@ import sys
 import yaml
 import csv
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
 def load_signatures(sig_dir):
     signatures = []
     for root, _, files in os.walk(sig_dir):
@@ -30,8 +31,8 @@ def load_signatures(sig_dir):
                     elif 'patterns' in sig:
                         patterns.extend(sig['patterns'])
                     for raw_pattern in patterns:
-                        if not raw_pattern.strip(): ##
-                            continue ##
+                        if not raw_pattern.strip():
+                            continue
                         try:
                             compiled = re.compile(raw_pattern)
                             signatures.append({
@@ -40,29 +41,45 @@ def load_signatures(sig_dir):
                                 'description': sig.get('description', '')
                             })
                         except re.error as e:
-                            print(f"⚠️ Invalid regex in {fname}: {e}", file=sys.stderr)
+                            print(f" Invalid regex in {fname}: {e}", file=sys.stderr)
     return signatures
 
 def scan_file(path, signatures):
     hits = []
-
     if not os.path.isfile(path):
         return hits
-
     try:
         with open(path, 'r', encoding='utf-8') as f:
             for i, line in enumerate(f, 1):
                 for sig in signatures:
+
+                    sensitive_keywords = ['key', 'password', 'pass', 'username', 'token', 'secret', 'auth', 'apikey', 'access', 'credential']
+
                     for m in sig['pattern'].finditer(line):
                         raw_val = m.group(0).strip()
-                        if not raw_val: ##
-                            continue ##
-                        full_line = line.strip()
-                        hits.append((i, sig['id'], raw_val, full_line))
+                        if not raw_val:
+                            continue
+
+
+                        # this part below
+                        try:
+                            prefix = line[:m.start()].lower()
+                        except IndexError:
+                            continue
+
+
+
+                        
+                        if not any(keyword in prefix for keyword in sensitive_keywords):
+                            continue
+
+                        #ends here
+
+                        hits.append((i, sig['id'], raw_val))
     except (UnicodeDecodeError, PermissionError, FileNotFoundError):
         pass
-
     return hits
+
 def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_workers=8):
     results = []
     total = 0
@@ -73,7 +90,7 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
             fpath = os.path.join(root, fn)
             file_paths.append(fpath)
 
-    print(f"🔄 Scanning {len(file_paths)} files with {max_workers} threads...")
+    print(f" Scanning {len(file_paths)} files with {max_workers} threads...")
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_path = {executor.submit(scan_file, path, signatures): path for path in file_paths}
@@ -82,19 +99,14 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
             try:
                 hits = future.result()
                 for hit in hits:
-                    line_no, sid, val, full_line = hit
+                    line_no, sid, val = hit
                     total += 1
-                    if val:
-                        print(f"{path}:{line_no} [{sid}] {val}")
-                    else:
-                        print(f"{path}:{line_no} [{sid}]  Empty match")
-
+                    print(f"{path}:{line_no}   [{sid}]   {val}")
                     results.append({
                         'File Path': path,
                         'Line Number': line_no,
                         'Signature ID': sid,
-                        'Matched Text': val,
-                        'Full Line Text': full_line
+                        'Matched Text': val
                     })
             except Exception as e:
                 print(f"⚠️ Error scanning {path}: {e}", file=sys.stderr)
@@ -104,10 +116,11 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
     else:
         print(f"✅ Found {total} raw secrets.")
 
-    print(f"📄 Writing results to {output_csv} ...")
+    print(f" Writing results to {output_csv} ...")
+    os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=[
-            'File Path', 'Line Number', 'Signature ID', 'Matched Text', 'Full Line Text'
+            'File Path', 'Line Number', 'Signature ID', 'Matched Text'
         ])
         writer.writeheader()
         writer.writerows(results)
@@ -154,9 +167,19 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
    
-# disabled archive_files, word_file, budget_files, [tokens_1password_data_files], ruby.yaml  , compliance id nos
-# compliance_cusip number can remove
-# i.e enabled -> disabled under status field
+# disabled ->  archive_files.yaml, word_file.yaml, budget_files.yaml, tokens_1password_data_files.yaml, ruby.yaml  , cusip_numbers.yaml
+
+
+# path, what is the raw value matching , and the path
+
+'''
+command to run:
+
+# File path to run the scipt.py will differ and so will the output, so pls change below as per own directory
+
+/Users/amadesai/Documents/watchman-signatures/signatures/script.py \
+    /Users/amadesai/Desktop/test \                                   
+    --sigs /Users/amadesai/Documents/watchman-signatures/signatures \
+    --out /Users/amadesai/Documents/watchman-signatures/secrets.csv
+    '''
