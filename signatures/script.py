@@ -67,6 +67,8 @@ def scan_file(path, signatures):
                         except IndexError:
                             continue
 
+                        matched_keyword = next((kw for kw in sensitive_keywords if kw in prefix), None)
+
 
 
                         
@@ -74,8 +76,9 @@ def scan_file(path, signatures):
                             continue
 
                         #ends here
+                        hits.append((i, sig['id'], raw_val, matched_keyword))
 
-                        hits.append((i, sig['id'], raw_val))
+
     except (UnicodeDecodeError, PermissionError, FileNotFoundError):
         pass
     return hits
@@ -99,14 +102,15 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
             try:
                 hits = future.result()
                 for hit in hits:
-                    line_no, sid, val = hit
+                    line_no, sid, val, matched_keyword = hit
                     total += 1
-                    print(f"{path}:{line_no}   [{sid}]   {val}")
+                    print(f"{path}:{line_no}   [{sid}]   {val} (keyword: {matched_keyword})")
                     results.append({
                         'File Path': path,
                         'Line Number': line_no,
                         'Signature ID': sid,
-                        'Matched Text': val
+                        'Matched Text': val,
+                        'Matched Keyword' : matched_keyword
                     })
             except Exception as e:
                 print(f"⚠️ Error scanning {path}: {e}", file=sys.stderr)
@@ -120,7 +124,7 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
     os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=[
-            'File Path', 'Line Number', 'Signature ID', 'Matched Text'
+            'File Path', 'Line Number', 'Signature ID', 'Matched Text', 'Matched Keyword'
         ])
         writer.writeheader()
         writer.writerows(results)

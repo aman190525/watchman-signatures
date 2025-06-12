@@ -1,0 +1,78 @@
+---
+filename: database_files.yaml
+signatures:
+
+  - name: Database Files
+    id: database_files
+    status: enabled
+    author: PaperMtn
+    date: "2025-06-12"
+    description: Detects exposed database files by common file extensions
+    severity: "50"
+    notes:
+    references:
+    watchman_apps:
+      slack_std:
+        category: secrets
+        scope:
+          - files
+        file_types:
+        search_strings:
+          - ".db"
+          - ".sqlite"
+          - ".sqlite3"
+          - ".mdb"
+          - ".accdb"
+          - ".mdf"
+          - ".ldf"
+          - ".ndf"
+          - ".frm"
+          - ".ibd"
+          - ".myd"
+          - ".myi"
+          - ".fdb"
+          - ".gdb"
+          - ".rdb"
+          - ".dta"
+          - ".bson"
+          - ".sst"
+          - ".couch"
+          - ".dbf"
+      slack_eg:
+        scope:
+          - files
+        file_types:
+        locations:
+          - public
+          - private
+          - connect
+        search_strings:
+          - ".db"
+          - ".sqlite"
+          - ".sqlite3"
+          - ".mdb"
+          - ".accdb"
+          - ".mdf"
+          - ".ldf"
+          - ".ndf"
+          - ".frm"
+          - ".ibd"
+          - ".myd"
+          - ".myi"
+          - ".fdb"
+          - ".gdb"
+          - ".rdb"
+          - ".dta"
+          - ".bson"
+          - ".sst"
+          - ".couch"
+          - ".dbf"
+    test_cases:
+      match_cases:
+        - "my_database.db"
+        - "data/backup.sqlite3"
+      fail_cases:
+        - "db_connection = true"
+        - "string.includes('.db')"
+    patterns:
+      - ""
