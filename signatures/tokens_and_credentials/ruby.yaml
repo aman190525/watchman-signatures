@@ -4,7 +4,7 @@ signatures:
 
   - name: Ruby on Rails Secret Tokens
     id: tokens_ruby_on_rails_secret_token
-    status: enabled
+    status: disabled
     author: PaperMtn
     date: "2022-12-23"
     description:

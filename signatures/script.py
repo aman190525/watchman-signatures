@@ -30,6 +30,8 @@ def load_signatures(sig_dir):
                     elif 'patterns' in sig:
                         patterns.extend(sig['patterns'])
                     for raw_pattern in patterns:
+                        if not raw_pattern.strip(): ##
+                            continue ##
                         try:
                             compiled = re.compile(raw_pattern)
                             signatures.append({
@@ -53,6 +55,8 @@ def scan_file(path, signatures):
                 for sig in signatures:
                     for m in sig['pattern'].finditer(line):
                         raw_val = m.group(0).strip()
+                        if not raw_val: ##
+                            continue ##
                         full_line = line.strip()
                         hits.append((i, sig['id'], raw_val, full_line))
     except (UnicodeDecodeError, PermissionError, FileNotFoundError):
@@ -80,7 +84,11 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
                 for hit in hits:
                     line_no, sid, val, full_line = hit
                     total += 1
-                    print(f"{path}:{line_no} [{sid}] {val}")
+                    if val:
+                        print(f"{path}:{line_no} [{sid}] {val}")
+                    else:
+                        print(f"{path}:{line_no} [{sid}]  Empty match")
+
                     results.append({
                         'File Path': path,
                         'Line Number': line_no,
@@ -145,3 +153,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+   
+# disabled archive_files, word_filed, budget_files, [tokens_1password_data_files], ruby.yaml  
+# i.e enabled -> disabled under status field

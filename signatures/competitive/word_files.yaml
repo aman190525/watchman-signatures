@@ -4,7 +4,7 @@ signatures:
 
   - name: Word Files
     id: word_files
-    status: enabled
+    status: disabled
     author: PaperMtn
     date: "2021-09-24"
     description: Detects exposed Microsoft Word documents
