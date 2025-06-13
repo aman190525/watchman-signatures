@@ -30,66 +30,83 @@ def load_signatures(sig_dir):
                         patterns.append(sig['pattern'])
                     elif 'patterns' in sig:
                         patterns.extend(sig['patterns'])
+
+                    compiled_patterns = []
                     for raw_pattern in patterns:
                         if not raw_pattern.strip():
                             continue
                         try:
-                            compiled = re.compile(raw_pattern)
-                            signatures.append({
-                                'id': sig.get('id', fname),
-                                'pattern': compiled,
-                                'description': sig.get('description', ''),
-                                'category': sig.get('category', 'secret') # default to 'secret'
-                            })
+                            compiled_patterns.append(re.compile(raw_pattern))
                         except re.error as e:
                             print(f" Invalid regex in {fname}: {e}", file=sys.stderr)
+
+                    # Merge search_strings and file_types from watchman_apps
+                    search_strings = set(sig.get('search_strings', []))
+                    file_types = set(sig.get('file_types', []))
+                    watchman_apps = sig.get('watchman_apps', {})
+                    for app in watchman_apps.values():
+                        search_strings.update(app.get('search_strings', []) or [])
+                        fts = app.get('file_types')
+                        if fts:
+                            file_types.update(fts)
+
+
+                    signatures.append({
+                        'id': sig.get('id', fname),
+                        'patterns': compiled_patterns,
+                        'description': sig.get('description', ''),
+                        'category': sig.get('category', 'secret'),
+                        'search_strings': list(search_strings),
+                        'file_types': list(file_types),
+                        'watchman_apps': watchman_apps
+                    })
     return signatures
 
 def scan_file(path, signatures):
     hits = []
     if not os.path.isfile(path):
         return hits
+
+    sensitive_keywords = ['key', 'password', 'pass', 'username', 'token', 'secret', 'auth', 'apikey', 'access', 'credential']
+    filename = os.path.basename(path).lower()
+
+    # Check file type match once per file
+    for sig in signatures:
+        for ftype in sig.get('file_types', []):
+            if filename.endswith(ftype.lower()):
+                hits.append((0, sig['id'], ftype, 'filetype'))
+
     try:
         with open(path, 'r', encoding='utf-8') as f:
             for i, line in enumerate(f, 1):
                 for sig in signatures:
-
-                    sensitive_keywords = ['key', 'password', 'pass', 'username', 'token', 'secret', 'auth', 'apikey', 'access', 'credential']
-
-                    for m in sig['pattern'].finditer(line):
-                        raw_val = m.group(0).strip()
-                        if not raw_val:
-                            continue
-
-                        
-                        if sig.get('category', 'secret') == 'filetype':
-                            matched_keyword = "filetype"
-
-                        else:
-
-                        
-                        
-                            prefix = line[:m.start()].lower()
-                            matched_keyword = next((kw for kw in sensitive_keywords if kw in prefix), None)
-
-                        # Look for the last word before the match
-                        #words = re.findall(r'\b\w+\b', prefix)
-                        #matched_keyword = words[-1] if words and words[-1] in sensitive_keywords else None
-
-
-
-
-                       
-                            if not any(keyword in prefix for keyword in sensitive_keywords):
+                    # Match regex patterns
+                    for pattern in sig.get('patterns', []):
+                        for m in pattern.finditer(line):
+                            raw_val = m.group(0).strip()
+                            if not raw_val:
                                 continue
 
-                        #ends here
-                        hits.append((i, sig['id'], raw_val, matched_keyword))
+                            if sig.get('category', 'secret') == 'filetype':
+                                matched_keyword = "filetype"
+                            else:
+                                prefix = line[:m.start()].lower()
+                                matched_keyword = next((kw for kw in sensitive_keywords if kw in prefix), None)
+                                if not any(keyword in prefix for keyword in sensitive_keywords):
+                                    continue
 
+                            hits.append((i, sig['id'], raw_val, matched_keyword))
+
+                    # Match search_strings
+                    for sstr in sig.get('search_strings', []):
+                        if sstr.lower() in line.lower():
+                            hits.append((i, sig['id'], sstr, 'search_string'))
 
     except (UnicodeDecodeError, PermissionError, FileNotFoundError):
         pass
+
     return hits
+
 
 def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_workers=8):
     results = []
@@ -118,7 +135,7 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
                         'Line Number': line_no,
                         'Signature ID': sid,
                         'Matched Text': val,
-                        'Matched Keyword' : matched_keyword
+                        'Matched Keyword': matched_keyword
                     })
             except Exception as e:
                 print(f"⚠️ Error scanning {path}: {e}", file=sys.stderr)

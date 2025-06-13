@@ -5,8 +5,28 @@ signatures:
   - name: Database Files
     id: database_files
     category: filetype
-
-
+    file_types:
+          - ".db"
+          - ".sqlite"
+          - ".sql"
+          - ".sqlite3"
+          - ".mdb"
+          - ".accdb"
+          - ".mdf"
+          - ".ldf"
+          - ".ndf"
+          - ".frm"
+          - ".ibd"
+          - ".myd"
+          - ".myi"
+          - ".fdb"
+          - ".gdb"
+          - ".rdb"
+          - ".dta"
+          - ".bson"
+          - ".sst"
+          - ".couch"
+          - ".dbf"
     status: enabled
     author: PaperMtn
     date: "2025-06-12"
@@ -20,6 +40,28 @@ signatures:
         scope:
           - files
         file_types:
+          - ".db"
+          - ".sqlite"
+          - ".sql"
+          - ".sqlite3"
+          - ".mdb"
+          - ".accdb"
+          - ".mdf"
+          - ".ldf"
+          - ".ndf"
+          - ".frm"
+          - ".ibd"
+          - ".myd"
+          - ".myi"
+          - ".fdb"
+          - ".gdb"
+          - ".rdb"
+          - ".dta"
+          - ".bson"
+          - ".sst"
+          - ".couch"
+          - ".dbf"
+          
         search_strings:
           - ".db"
           - ".sqlite"
@@ -41,10 +83,12 @@ signatures:
           - ".sst"
           - ".couch"
           - ".dbf"
+          
       slack_eg:
         scope:
           - files
         file_types:
+          
         locations:
           - public
           - private
@@ -52,6 +96,7 @@ signatures:
         search_strings:
           - ".db"
           - ".sqlite"
+          - ".sql"
           - ".sqlite3"
           - ".mdb"
           - ".accdb"
