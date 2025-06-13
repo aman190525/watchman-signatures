@@ -1,11 +1,21 @@
 #!/usr/bin/env python3
-"""
-secret_scanner.py
+'''
+command to run:
 
-Scans a directory for secrets using YAML signatures and exports results to CSV.
-Outputs raw matched values with:
-    <file_path>:<line_number> [<signature_id>] <matched_text>
-"""
+# File path to run the scipt.py will differ and so will the output, so pls change below as per own directory/file path
+
+
+/Users/amadesai/Documents/watchman-signatures/signatures/script.py \
+    /Users/amadesai/Desktop/test \                                   
+    --sigs /Users/amadesai/Documents/watchman-signatures/signatures \
+    --out /Users/amadesai/Documents/watchman-signatures/secrets.csv
+
+
+    The secrets.csv will be created and saved in the same folder
+
+
+    # Please also remember to delete the docker images after running scripts 1,2 else all the matches will be duplicated
+    '''
 
 import argparse
 import os
@@ -197,18 +207,5 @@ if __name__ == "__main__":
     main()
 
    
-# disabled ->  archive_files.yaml, word_file.yaml, budget_files.yaml, tokens_1password_data_files.yaml, ruby.yaml  , cusip_numbers.yaml
 
 
-# path, what is the raw value matching , and the path
-
-'''
-command to run:
-
-# File path to run the scipt.py will differ and so will the output, so pls change below as per own directory
-
-/Users/amadesai/Documents/watchman-signatures/signatures/script.py \
-    /Users/amadesai/Desktop/test \                                   
-    --sigs /Users/amadesai/Documents/watchman-signatures/signatures \
-    --out /Users/amadesai/Documents/watchman-signatures/secrets.csv
-    '''
