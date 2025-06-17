@@ -46,5 +46,26 @@ signatures:
         - blank
       fail_cases:
         - blank
-    patterns:
-      - ""
+          
+      patterns:
+       - "\.db$"
+       - "\.sqlite$"
+       - "\.sqlite3$"
+       - "\.mdb$"
+       - "\.accdb$"
+       - "\.mdf$"
+       - "\.ldf$"
+       - "\.ndf$"
+       - "\.frm$"
+       - "\.ibd$"
+       - "\.myd$"
+       - "\.myi$"
+       - "\.fdb$"
+       - "\.gdb$"
+       - "\.rdb$"
+       - "\.dta$"
+       - "\.bson$"
+       - "\.sst$"
+       - "\.couch$"
+       - "\.dbf$"
+
