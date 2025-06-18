@@ -16,7 +16,6 @@ command to run:
 
     # Please also remember to delete the docker images after running scripts 1,2 else all the matches will be duplicated
     '''
-
 import argparse
 import os
 import re
@@ -50,7 +49,6 @@ def load_signatures(sig_dir):
                         except re.error as e:
                             print(f" Invalid regex in {fname}: {e}", file=sys.stderr)
 
-                    # Merge search_strings and file_types from watchman_apps
                     search_strings = set(sig.get('search_strings', []))
                     file_types = set(sig.get('file_types', []))
                     watchman_apps = sig.get('watchman_apps', {})
@@ -59,7 +57,6 @@ def load_signatures(sig_dir):
                         fts = app.get('file_types')
                         if fts:
                             file_types.update(fts)
-
 
                     signatures.append({
                         'id': sig.get('id', fname),
@@ -77,14 +74,14 @@ def scan_file(path, signatures):
     if not os.path.isfile(path):
         return hits
 
-    sensitive_keywords = ['key', 'password', 'pass', 'username', 'token', 'secret', 'auth', 'apikey', 'access', 'credential']
+    sensitive_keywords = ['key', 'password', 'email', 'username', 'token', 'secret', 'auth', 'apikey', 'access', 'credential']
     filename = os.path.basename(path).lower()
 
     # Check file type match once per file
     for sig in signatures:
         for ftype in sig.get('file_types', []):
             if filename.endswith(ftype.lower()):
-                hits.append((0, sig['id'], ftype, 'filetype'))
+                hits.append((0, sig['id'], ftype, 'filetype', ''))
 
     try:
         with open(path, 'r', encoding='utf-8') as f:
@@ -105,18 +102,17 @@ def scan_file(path, signatures):
                                 if not any(keyword in prefix for keyword in sensitive_keywords):
                                     continue
 
-                            hits.append((i, sig['id'], raw_val, matched_keyword))
+                            hits.append((i, sig['id'], raw_val, matched_keyword, line.strip()))
 
                     # Match search_strings
                     for sstr in sig.get('search_strings', []):
                         if sstr.lower() in line.lower():
-                            hits.append((i, sig['id'], sstr, 'search_string'))
+                            hits.append((i, sig['id'], sstr, 'search_string', line.strip()))
 
     except (UnicodeDecodeError, PermissionError, FileNotFoundError):
         pass
 
     return hits
-
 
 def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_workers=8):
     results = []
@@ -137,15 +133,21 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
             try:
                 hits = future.result()
                 for hit in hits:
-                    line_no, sid, val, matched_keyword = hit
+                    line_no, sid, val, matched_keyword, matched_line = hit
                     total += 1
-                    print(f"{path}:{line_no}   [{sid}]   {val} (keyword: {matched_keyword})")
+                    if matched_keyword != 'filetype':
+                        print(f"{path}:{line_no}   [{sid}]   {val} (keyword: {matched_keyword})")
+                        print(f"    >> {matched_line}")
+                    else:
+                        print(f"{path}:{line_no}   [{sid}]   {val} (keyword: {matched_keyword})")
+
                     results.append({
                         'File Path': path,
                         'Line Number': line_no,
                         'Signature ID': sid,
                         'Matched Text': val,
-                        'Matched Keyword': matched_keyword
+                        'Matched Keyword': matched_keyword,
+                        'Matched Line': matched_line
                     })
             except Exception as e:
                 print(f"⚠️ Error scanning {path}: {e}", file=sys.stderr)
@@ -159,7 +161,7 @@ def scan_directory(root_dir, signatures, output_csv='scan_results.csv', max_work
     os.makedirs(os.path.dirname(output_csv), exist_ok=True)
     with open(output_csv, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=[
-            'File Path', 'Line Number', 'Signature ID', 'Matched Text', 'Matched Keyword'
+            'File Path', 'Line Number', 'Signature ID', 'Matched Text', 'Matched Keyword', 'Matched Line'
         ])
         writer.writeheader()
         writer.writerows(results)
@@ -205,7 +207,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-   
-
-
