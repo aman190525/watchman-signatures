@@ -174,14 +174,14 @@ signatures:
           - questions
           - answers
         search_strings:
-          - PRIVATE
+          #- PRIVATE
       slack_std:
         category: secrets
         scope:
           - messages
         file_types:
         search_strings:
-          - PRIVATE
+          #- PRIVATE
       slack_eg:
         scope:
           - messages
@@ -192,7 +192,7 @@ signatures:
           - private
           - connect
         search_strings:
-          - PRIVATE
+          #- PRIVATE
       gitlab:
         scope:
           - blobs

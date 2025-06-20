@@ -1,13 +1,13 @@
 ---
-filename: word_files.yaml
+filename: budget_files.yaml
 signatures:
 
-  - name: Word Files
-    id: word_files
+  - name: Budget Files
+    id: budget_files
     status: disabled
     author: PaperMtn
     date: "2021-09-24"
-    description: Detects exposed Microsoft Word documents
+    description: Detects exposed Budget files
     severity: "30"
     notes:
     references:
@@ -17,32 +17,42 @@ signatures:
         scope:
           - files
         file_types:
-          - doc
-          - docx
-          - dotx
-          - docm
+          - xls
+          - xlsx
+          - xlsm
+          - xlsb
           - pdf
+          - gsheet
+          - gpres
+          - pptx
+          - ppt
         search_strings:
-          - ".doc"
-          - ".dotx"
-          - ".pdf"
+          - "budget"
+          - "fiscal"
+          - "fy"
+          - "salary"
       slack_eg:
         scope:
           - files
         file_types:
-          - doc
-          - docx
-          - dotx
-          - docm
+          - xls
+          - xlsx
+          - xlsm
+          - xlsb
           - pdf
+          - gsheet
+          - gpres
+          - pptx
+          - ppt
         locations:
           - public
           - private
           - connect
         search_strings:
-          - ".doc"
-          - ".dotx"
-          - ".pdf"
+          - "budget"
+          - "fiscal"
+          - "fy"
+          - "salary"
     test_cases:
       match_cases:
         - blank

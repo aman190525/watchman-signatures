@@ -18,8 +18,8 @@ signatures:
           - questions
           - answers
         search_strings:
-          - paypal
-          - braintree
+          #- paypal
+          #- braintree
       slack_std:
         category: secrets
         scope:
